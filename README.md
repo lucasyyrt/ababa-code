@@ -190,4 +190,4 @@ Para diagnóstico real, procure: neurologista, geriatra, psiquiatra ou neuropsic
 
 ---
 
-**Escola:** Silva Paes - Técnico em Informática (3º ano)
+**Escola:** Brigadeiro José da Silva Paes - Técnico em Informática (3º ano)
