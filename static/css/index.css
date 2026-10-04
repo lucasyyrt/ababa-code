@@ -1,0 +1,177 @@
+/*
+    esse arquivo e so da home
+    aqui ficam as logos, o texto principal e o layout da tela inicial
+    a ideia e deixar a primeira pagina bem visual e com foco no botao principal
+    entao essa parte ajuda a abrir a aplicacao com cara de apresentacao
+*/
+.logo-top-right,
+.logo-top-left {
+    position: absolute;
+    top: 0;
+    z-index: 50;
+    margin: 1rem;
+}
+
+.logo-top-right {
+    right: 0;
+}
+
+.logo-top-left {
+    left: 0;
+}
+
+.logo-top-left .logo-fixed {
+    width: 120px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.logo-top-right .logo-fixed {
+    width: 80px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.logo-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.logo-home-main {
+    width: 180px;
+    height: auto;
+    background: transparent;
+    border: none;
+}
+
+.container-home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 110px;
+    min-height: calc(100vh - 110px);
+    width: 100%;
+    padding: 2rem 1rem;
+    position: relative;
+}
+
+.header-home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.title-home {
+    font-size: 48px;
+    font-weight: bold;
+    color: var(--light-text);
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.subtitle-home {
+    font-size: 20px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin: 0;
+}
+
+.main-home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 900px;
+    gap: 2rem;
+}
+
+.content-home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.textin-home {
+    max-width: 700px;
+    text-align: center;
+    line-height: 1.8;
+    color: var(--light-text);
+    font-size: 16px;
+    margin-bottom: 1.5rem;
+}
+
+.button-container-home {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+.logo-home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.logo {
+    width: auto;
+    max-width: 300px;
+    height: auto;
+}
+
+.nav-links-footer {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.nav-link-footer {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.nav-link-footer:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .container-home {
+        padding: 1rem;
+        margin-top: 78px;
+    }
+
+    .title-home {
+        font-size: 36px;
+    }
+
+    .subtitle-home {
+        font-size: 16px;
+    }
+
+    .textin-home {
+        font-size: 14px;
+    }
+
+    .nav-links-footer {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}

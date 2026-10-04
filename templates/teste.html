@@ -1,0 +1,163 @@
+<!--
+    esse arquivo é o módulo de avaliação clínica completa
+    ele monta o formulário com idade, educação, ses, mmse e dados de imagem
+    depois envia tudo pra API pra gerar a predição da IA
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Triagem - IA ABABA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/teste.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo"><img src="/imgs/ababalogo.png" alt="ABABA">Ababa</a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/teste_rapido" class="nav-link">Teste Rápido</a></li>
+                <li><a href="/teste" class="nav-link active">Teste Completo</a></li>
+                <li><a href="/sobre" class="nav-link">Sobre</a></li>
+                <li><a href="/creditos" class="nav-link">Créditos</a></li>
+                <li>
+                    <div class="nav-user">
+                        <span class="nav-user-name" id="nav-user-name">👤 Usuário</span>
+                        <button class="nav-logout" onclick="fazerLogout()">Sair</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-page">
+        <p class="page-disclaimer">Este software é um projeto acadêmico de conclusão de curso, de natureza totalmente experimental.</p>
+        <div class="logo-top-right">
+            <img src="/imgs/Logo_sp.png" alt="Logo" class="logo-fixed">
+        </div>
+        <div class="logo-top-left">
+            <img src="/imgs/WhatsApp-Image-2026-07-22-at-09.35.38-removebg-preview.png" alt="Logo" class="logo-fixed">
+        </div>
+
+        <header class="header-page">
+            <h1 class="title-page">Módulo de Avaliação Clínica</h1>
+            <p class="subtitle-page">Insira os parâmetros coletados do paciente para o cruzamento de dados na Rede de Árvores Aleatórias.</p>
+        </header>
+
+        <main class="main-page">
+            <form onsubmit="enviarAnalise(event)" class="form-clinico">
+                <!-- GÊNERO -->
+                <div class="form-group">
+                    <label>Gênero Biológico</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="genero" value="Masculino" checked>
+                            Masculino
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="genero" value="F">
+                            Feminino
+                        </label>
+                    </div>
+                </div>
+
+                <!-- IDADE -->
+                <div class="form-group">
+                    <label for="idade-slider">Idade do Paciente (Anos)</label>
+                    <input type="range" id="idade-slider" min="33" max="96" value="70">
+                    <span id="idade-valor">70</span> anos
+                </div>
+
+                <!-- EDUCAÇÃO -->
+                <div class="form-group">
+                    <label for="educacao">Grau de Instrução / Escolaridade</label>
+                    <select id="educacao" required>
+                        <option value="">Selecione...</option>
+                        <option value="1">1 - Nível Escolar 1</option>
+                        <option value="2">2 - Nível Escolar 2</option>
+                        <option value="3">3 - Nível Escolar 3</option>
+                        <option value="4">4 - Nível Escolar 4</option>
+                        <option value="5" selected>5 - Nível Escolar 5</option>
+                    </select>
+                </div>
+
+                <!-- NÍVEL SOCIOECONÔMICO -->
+                <div class="form-group">
+                    <label for="ses-slider">Nível Socioeconômico Estimado (1-5)</label>
+                    <input type="range" id="ses-slider" min="1" max="5" value="2">
+                    <span id="ses-valor">2</span>
+                    <small>1: Classe Alta | 2: Renda Elevada | 3: Classe Média | 4: Renda Baixa | 5: Extrema Pobreza</small>
+                </div>
+
+                <!-- MMSE -->
+                <div class="form-group">
+                    <label for="mmse-slider">Pontuação obtida no teste mental (MMSE)</label>
+                    <input type="range" id="mmse-slider" min="14" max="30" value="27">
+                    <span id="mmse-valor">27</span>/30
+                    <small>Caso não possua o teste, aplique o protocolo oficial disponibilizado pela <a href="https://saude.rs.gov.br/upload/arquivos/202101/29102908-mini-exame-do-estado-mental-meem.pdf" target="_blank">Secretaria de Saúde</a>.</small>
+                </div>
+
+                <!-- DADOS DE IMAGEM -->
+                <h3>Dados de Exame de Imagem (Ressonância Magnética)</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="etiv">Volume Intracraniano Total (eTIV)</label>
+                        <input type="number" id="etiv" min="1123" max="1992" value="1500" step="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="nwbv-slider">Volume Cerebral Normalizado (NWBV)</label>
+                        <input type="range" id="nwbv-slider" min="0.644" max="0.847" value="0.74" step="0.001">
+                        <span id="nwbv-valor">0.74</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="asf">Fator de Escala Relativo (ASF)</label>
+                        <input type="number" id="asf" min="0.881" max="1.563" value="1.0" step="0.001">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submeter e Executar Predição da IA</button>
+            </form>
+
+            <div id="resultado-analise" style="display:none;" class="resultado-container">
+                <h2>Análise Concluída</h2>
+                <div class="metric">
+                    <label>Pontuação Cognitiva MMSE</label>
+                    <span id="mmse-resultado" class="metric-value">--/30</span>
+                </div>
+                <div id="resultado-ia-box"></div>
+                <div id="confianca-ia-box"></div>
+            </div>
+
+            <div class="buttons-bottom">
+                <button class="btn btn-danger" onclick="fazerLogout()">🚪 Encerrar Sessão</button>
+                <button class="btn btn-back" onclick="voltarHome()">← Voltar para Home</button>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <small>Este software é um projeto acadêmico de conclusão de curso, de natureza totalmente experimental.</small>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/teste.js') }}"></script>
+    <script>
+        // Carregar nome do usuário ao abrir a página
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/usuario_info')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.username) {
+                        document.getElementById('nav-user-name').textContent = '👤 ' + data.username;
+                    }
+                })
+                .catch(error => console.log('Erro ao carregar usuário:', error));
+        });
+    </script>
+    <div class="credits">copyright © 2026</div>
+</body>
+</html>

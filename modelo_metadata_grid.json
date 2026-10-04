@@ -1,0 +1,15 @@
+{
+  "best_params": {
+    "clf__class_weight": "balanced",
+    "clf__max_depth": 10,
+    "clf__min_samples_split": 2,
+    "clf__n_estimators": 100
+  },
+  "best_cv_score": 0.8425531914893616,
+  "holdout_accuracy": 0.8085106382978723,
+  "n_features": 11,
+  "label_mapping": {
+    "F": 0,
+    "M": 1
+  }
+}

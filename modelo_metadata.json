@@ -1,0 +1,22 @@
+{
+  "colunas": [
+    "M/F",
+    "Age",
+    "Educ",
+    "SES",
+    "MMSE",
+    "eTIV",
+    "nWBV",
+    "ASF"
+  ],
+  "precision": 0.8297872340425532,
+  "n_features": 8,
+  "label_mapping": {
+    "M": 0,
+    "F": 1
+  },
+  "imputacao_medianas": {
+    "SES": 2.0,
+    "MMSE": 29.0
+  }
+}

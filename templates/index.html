@@ -1,0 +1,87 @@
+<!--
+    esse arquivo é a home do sistema
+    aqui fica a entrada principal, o logo e os links pra teste rapido, login e sobre
+    tudo bem simples, só pra abrir o app e ir pro fluxo
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA ABABA - Pré-diagnósticos de Demência</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo"><img src="/imgs/ababalogo.png" alt="ABABA">Ababa</a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link active">Home</a></li>
+                <li><a href="/teste_rapido" class="nav-link">Teste Rápido</a></li>
+                <li id="nav-login-item"><a href="/login" class="nav-link">Login</a></li>
+                <li id="nav-teste-item" style="display:none;"><a href="/teste" class="nav-link">Teste Completo</a></li>
+                <li><a href="/sobre" class="nav-link">Sobre</a></li>
+                <li><a href="/creditos" class="nav-link">Créditos</a></li>
+            </ul>
+            <div id="nav-user-item" class="nav-user" style="display:none;">
+                <span id="nav-user-name"></span>
+                <button class="nav-logout" onclick="fazerLogout()">Sair</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-home">
+        <p class="page-disclaimer">Este software é um projeto acadêmico de conclusão de curso, de natureza totalmente experimental.</p>
+        <div class="logo-top-right">
+            <img src="/imgs/Logo_sp.png" alt="Logo" class="logo-fixed">
+        </div>
+        <div class="logo-top-left">
+            <img src="/imgs/WhatsApp-Image-2026-07-22-at-09.35.38-removebg-preview.png" alt="Logo" class="logo-fixed">
+        </div>
+        <div class="logo-center">
+            <img src="/imgs/ababalogo.png" alt="ABABA Logo" class="logo-home-main">
+        </div>
+
+        <header class="header-home">
+            <h1 class="title-home">Bem vindo ao ABABA</h1>
+            <p class="subtitle-home">Pré-diagnósticos automatizados de demência</p>
+        </header>
+
+        <main class="main-home">
+            <div class="content-home">
+                <p class="textin-home">
+                    Este sistema utiliza um modelo avançado de Inteligência Artificial para avaliar múltiplos 
+                    biomarcadores clínicos, testes cognitivos e dados demográficos com o intuito de auxiliar 
+                    na triagem precoce da demência.
+                </p>
+
+                <div class="button-container-home">
+                    <button class="btn btn-primary" onclick="window.location.href='/teste_rapido'">
+                        Faça o Teste Rápido
+                    </button>
+                </div>
+
+                <nav class="nav-links-footer">
+                    <a href="/login" class="nav-link-footer">Login Profissional</a>
+                    <a href="/creditos" class="nav-link-footer">Créditos</a>
+                </nav>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <small>Este software é um projeto acadêmico de conclusão de curso, de natureza totalmente experimental.</small>
+    </footer>
+
+    <div class="credits">
+        <p>
+            copyright © 2026
+        </p>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

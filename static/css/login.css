@@ -1,0 +1,184 @@
+/*
+    esse arquivo e da tela de login e cadastro
+    aqui ta o layout da pagina, as abas e os campos do formulario
+    a estrutura deixa o usuario trocar entre entrar e criar conta sem sair do lugar
+    entao o fluxo fica mais simples e mais organizado
+*/
+.container-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 110px;
+    min-height: calc(100vh - 110px);
+    width: 100%;
+    padding: 2rem 1rem;
+    position: relative;
+}
+
+.header-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.title-page {
+    font-size: 42px;
+    font-weight: bold;
+    color: var(--light-text);
+    margin-bottom: 0.5rem;
+}
+
+.subtitle-page {
+    font-size: 16px;
+    color: #aaa;
+    margin: 0;
+}
+
+.main-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 750px;
+}
+
+.nav-links-back {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.logo-top-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 50;
+    margin: 1rem;
+}
+
+.logo-top-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    margin: 1rem;
+}
+
+.logo-top-left .logo-fixed {
+    width: 120px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.logo-fixed {
+    width: 80px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #555;
+    width: 100%;
+    justify-content: center;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    color: var(--light-text);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    transition: var(--transition);
+}
+
+.tab-btn:hover {
+    color: var(--secondary-color);
+}
+
+.tab-btn.active {
+    color: var(--secondary-color);
+    border-bottom-color: var(--secondary-color);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+form {
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin: 1.5rem 0;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #555;
+    border-radius: var(--border-radius);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--light-text);
+    font-size: 16px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    background-color: rgba(78, 205, 196, 0.15);
+}
+
+#msg-login, #msg-cadastro {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    display: none;
+}
+
+.mensagem.success {
+    background-color: rgba(40, 167, 69, 0.2);
+    border-left: 4px solid #28a745;
+    color: #28a745;
+}
+
+.mensagem.error {
+    background-color: rgba(255, 107, 107, 0.2);
+    border-left: 4px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .tabs {
+        flex-direction: column;
+    }
+
+    form {
+        max-width: 100%;
+    }
+}

@@ -1,0 +1,107 @@
+<!--
+    esse arquivo é a página de apresentação do projeto
+    aqui fala um pouco da demencia, da ideia da rede neural e da equipe
+    é mais uma página informativa pra contextualizar o sistema
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre - IA ABABA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sobre.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo"><img src="/imgs/ababalogo.png" alt="ABABA">Ababa</a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/teste_rapido" class="nav-link">Teste Rápido</a></li>
+                <li id="nav-login-item"><a href="/login" class="nav-link">Login</a></li>
+                <li id="nav-teste-item" style="display:none;"><a href="/teste" class="nav-link">Teste Completo</a></li>
+                <li><a href="/sobre" class="nav-link active">Sobre</a></li>
+                <li><a href="/creditos" class="nav-link">Créditos</a></li>
+            </ul>
+            <div id="nav-user-item" class="nav-user" style="display:none;">
+                <span id="nav-user-name"></span>
+                <button class="nav-logout" onclick="fazerLogout()">Sair</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-page">
+        <p class="page-disclaimer">Este software é um projeto acadêmico de conclusão de curso, de natureza totalmente experimental.</p>
+        <div class="logo-top-right">
+            <img src="/imgs/Logo_sp.png" alt="Logo" class="logo-fixed">
+        </div>
+        <div class="logo-top-left">
+            <img src="/imgs/WhatsApp-Image-2026-07-22-at-09.35.38-removebg-preview.png" alt="Logo" class="logo-fixed">
+        </div>
+
+        <main class="main-page creditos">
+            <h2>Sobre a Demência no Brasil</h2>
+            <div class="creditos-lista">
+                <p>O Brasil está entre os 9 países com maior número de casos de demência não bem administrados, diagnosticados e tratados do mundo, estando em evidência clara desde 2012. 
+                    A demência, entre outros termos, é o nome do conjunto de doenças que afetam majoritariamente o cérebro e, consequentemente, outras capacidades do corpo. 
+                    As causas da demência afetam de forma geral idosos, pessoas com histórico familiar e grupos em risco de baixa infraestrutura, educação e falta de resolução médica.
+                    Através de tais problemas, o país sofre com a falta de pré-diagnósticos aceitáveis e estende-se a situações de risco às vítimas da doença, com a falta de diagnósticos antes de um avanço significativamente maior.
+                </p>
+            </div>
+
+            <h2>Proposta geral do projeto</h2>
+            <div class="creditos-lista">
+                <p>Considerando o cenário apresentado, a pesquisa propõe o desenvolvimento de uma rede neural voltada ao pré-diagnóstico da demência, atuando como uma ferramenta de suporte à decisão clínica. 
+                    O modelo visa analisar padrões em dados clínicos e imagens de ressonância magnética (base OASIS), permitindo que o médico especialista identifique casos prioritários com maior agilidade e precisão. 
+                    Ao integrar informações genéticas e exames laboratoriais, o sistema busca reduzir o tempo de resposta diagnóstica, facilitando o início precoce do tratamento e otimizando o fluxo de atendimento médico para reduzir os impactos da progressão da doença.
+                    O projeto também possui as seguintes propostas específicas
+                </p>
+            </div>
+            <ul class="creditos-lista">
+                <li> a. Treinar uma rede neural que possa analisar dados de pacientes ( idade, exames médicos) utilizando como base o banco de dados OASIS-1, que apresenta informações de diversos pacientes diferentes que estavam em processo de descobrimento da demência</li>
+                <li> b. Fazer com que a IA tenha uma taxa de acertos na identificação de padrões no paciente e que verifique imagens de ressonâncias (OASIS-1) corretamente.</li>
+                <li> c. Unir informações dos pacientes com a verificação das ressonâncias, com isso, aumentando a taxa de acerto na identificação do transtorno.</li>
+            </ul>
+
+            <h2>Sobre Inteligência Artificial e Redes Neurais</h2>
+            <div class="creditos-lista">
+                <p>A Inteligência Artificial (IA) é uma área da computação voltada ao desenvolvimento de sistemas capazes de realizar tarefas que normalmente exigem inteligência humana, como reconhecer padrões, interpretar informações e tomar decisões. 
+                    Dentro da IA, existe o Aprendizado de Máquina (Machine Learning), no qual os sistemas aprendem a partir de dados, sem serem programados para cada situação específica.
+                </p>
+                <p>As redes neurais artificiais são uma das principais técnicas de Machine Learning. 
+                    Inspiradas no funcionamento dos neurônios do cérebro humano, elas são compostas por camadas de neurônios artificiais que processam informações e aprendem por meio do ajuste de seus pesos durante o treinamento. 
+                    Quanto mais dados recebem, maior é sua capacidade de identificar padrões e realizar previsões com precisão.
+                </p>
+                <p>
+                    Assim, a relação entre esses conceitos é que a Inteligência Artificial engloba diversas tecnologias, enquanto as redes neurais representam uma das ferramentas mais importantes para construir sistemas inteligentes. 
+                    Graças a elas, aplicações como reconhecimento de imagens, assistentes virtuais, tradutores automáticos e sistemas de apoio ao diagnóstico médico conseguem aprender continuamente e oferecer resultados cada vez mais eficientes.
+                </p>
+            </div>
+
+            <h2>Sobre nós</h2>
+                <p>Nossa equipe, composta por Lucas Santos Silva, Murilo Romeu Teixeira e Nathan Teixeira de Souza faz parte do curso técnico de Informática da Escola Estadual de Ensino Médio Brigadeiro José da Silva Paes.
+                    Com nosso orientador, José Henrique Lopes da Silva, e nossos Coorientadores Joice Eslabão Oliveira, Leonardo Santana Benevides e Leandro Dutra Junior, criamos esse projeto como um TCC(Trabalho de Conclusão de Curso), 
+                    onde criamos a rede neural de forma experimental para pré diagnosticar casos de demência de leves a moderados. Vale ressaltar que este software é um projeto acadêmico, com fins experimentais e que não devem ser considerados como conclusões definitivas de diagnóstico.
+                </p>
+
+            <button class="btn btn-back" onclick="window.location.href='/'">← Voltar para Home</button>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <small>Este software é um projeto acadêmico de conclusão de curso, de natureza totalmente experimental.</small>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <div class="credits">
+        <p>
+            copyright © 2026
+        </p>
+    </div>
+</body>
+</html>
+    

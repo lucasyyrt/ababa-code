@@ -1,0 +1,193 @@
+/*
+    esse CSS cuida do topo do site
+    o navbar, os links e o botao de sair ficam aqui
+    essa parte fica fixa em cima da tela pra facilitar a navegacao entre as paginas
+    sem isso o usuario teria que ficar voltando e perdendo o contexto
+*/
+
+.navbar {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    right: 0;
+    background: linear-gradient(90deg, rgba(15, 23, 42, 0.95), rgba(78, 205, 196, 0.1));
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid rgba(78, 205, 196, 0.3);
+    z-index: 998;
+    padding: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.nav-container {
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 2rem;
+    height: 60px;
+}
+
+.nav-logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    height: 60px;
+}
+
+.nav-logo:hover {
+    color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.nav-logo img {
+    height: 45px;
+    width: auto;
+    margin-right: 8px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
+    height: 60px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.nav-user {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 14px;
+    height: 60px;
+    margin-left: auto;
+}
+
+.nav-link {
+    color: var(--light-text);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: var(--transition);
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.nav-link:hover {
+    color: var(--secondary-color);
+    background-color: rgba(78, 205, 196, 0.1);
+}
+
+.nav-link.active {
+    color: var(--secondary-color);
+    border-bottom: 2px solid var(--secondary-color);
+    background-color: rgba(78, 205, 196, 0.15);
+}
+
+.nav-user-name {
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.nav-logout {
+    padding: 8px 16px;
+    background-color: var(--primary-color);
+    color: var(--dark-text);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.nav-logout:hover {
+    background-color: #ff5252;
+    transform: translateY(-2px);
+}
+
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--light-text);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Ajustar container para ficar abaixo do navbar */
+.container {
+    margin-top: 78px !important;
+}
+
+/* ============= RESPONSIVIDADE ============= */
+
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 0 1rem;
+    }
+
+    .nav-logo {
+        font-size: 16px;
+    }
+
+    .nav-links {
+        gap: 1rem;
+    }
+
+    .nav-link {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .nav-user {
+        font-size: 12px;
+        gap: 0.5rem;
+    }
+
+    .nav-logout {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-container {
+        padding: 0 0.5rem;
+    }
+
+    .nav-links {
+        gap: 0.5rem;
+    }
+
+    .nav-link {
+        font-size: 11px;
+        padding: 4px 8px;
+    }
+
+    .nav-user-name {
+        display: none;
+    }
+
+    .nav-logout {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+}
