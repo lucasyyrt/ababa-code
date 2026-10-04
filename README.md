@@ -46,8 +46,7 @@ Observações e recomendações
 - Se o `git push` falhar por `Permission denied (publickey)`, use HTTPS no `origin` ou configure sua chave SSH no GitHub.
 - `requirements.txt` e `environment_details.txt` foram gerados a partir do ambiente local; pode haver pequenas diferenças de versão entre sistemas operacionais.
 - Para reprodução mais fiel, envie também os arquivos `modelo_alzheimer.pkl` e `padronizador.pkl` (são binários grandes — considere manter fora do repositório e compartilhar via release ou storage).
-
-Se quiser, eu comito este `README.md` localmente. Deseja que eu o adicione e commite agora? 
+ 
 # IA ABABA - Pré-diagnósticos de Demência
 
 Sistema web para triagem cognitiva e predição de Alzheimer usando Inteligência Artificial.
