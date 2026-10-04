@@ -153,8 +153,20 @@
 }
 
 @media (max-width: 768px) {
+    .logo-top-left .logo-fixed {
+        width: clamp(56px, 18vw, 90px);
+    }
+
+    .logo-top-right .logo-fixed {
+        width: clamp(44px, 15vw, 68px);
+    }
+
+    .logo-home-main {
+        width: 120px;
+    }
+
     .container-home {
-        padding: 1rem;
+        padding: 7rem 1rem 1rem;
         margin-top: 78px;
     }
 

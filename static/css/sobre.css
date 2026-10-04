@@ -100,6 +100,20 @@
 }
 
 @media (max-width: 768px) {
+    .container-page {
+        padding-top: 7rem;
+    }
+
+    .logo-top-left .logo-fixed {
+        width: clamp(56px, 18vw, 90px);
+        height: auto;
+    }
+
+    .logo-top-right .logo-fixed {
+        width: clamp(44px, 15vw, 68px);
+        height: auto;
+    }
+
     .creditos h2 {
         font-size: 20px;
     }
