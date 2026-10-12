@@ -3,9 +3,9 @@
 Breve guia para reproduzir o ambiente e correr os scripts localmente.
 
 Arquivos importantes:
-- `minha_rede.py` — script principal (treina e salva `modelo_alzheimer.pkl`).
-- `metrics_report.py` — gera matriz de confusão, F1 e ROC-AUC (gera `roc_curve.png`).
-- `modelo_alzheimer.pkl`, `padronizador.pkl`, `modelo_metadata.json` — modelos gerados (incluir se quiser usar resultados já treinados).
+- `minha_rede.py` — treina o Random Forest, faz avaliação cruzada aninhada e ajusta hiperparâmetros.
+- `metrics_report.py` — exibe as métricas OOF salvas nos metadados, sem reavaliar nos dados de treino.
+- `modelo_alzheimer.pkl`, `padronizador.pkl`, `imputador.pkl`, `modelo_metadata.json` — artefatos usados pela API.
 - `requirements.txt` — lista de dependências pip.
 - `environment_details.txt` — versão do Python e `pip freeze` (informações do ambiente atual).
 
@@ -42,11 +42,14 @@ Passos para reproduzir em outro PC
     python minha_rede.py
     python metrics_report.py
 
+`minha_rede.py` compara os parâmetros atuais com uma busca de hiperparâmetros usando validação cruzada aninhada e agrupada por paciente. A acurácia OOF é a estimativa de desempenho; os parâmetros finais são usados para treinar o modelo completo salvo para a API. `metrics_report.py` apenas lê e apresenta essa avaliação.
+
 Observações e recomendações
 - Se o `git push` falhar por `Permission denied (publickey)`, use HTTPS no `origin` ou configure sua chave SSH no GitHub.
 - `requirements.txt` e `environment_details.txt` foram gerados a partir do ambiente local; pode haver pequenas diferenças de versão entre sistemas operacionais.
-- Para reprodução mais fiel, envie também os arquivos `modelo_alzheimer.pkl` e `padronizador.pkl` (são binários grandes — considere manter fora do repositório e compartilhar via release ou storage).
- 
+- Para reprodução fiel da API, envie juntos `modelo_alzheimer.pkl`, `padronizador.pkl`, `imputador.pkl` e `modelo_metadata.json`.
+
+Se quiser, eu comito este `README.md` localmente. Deseja que eu o adicione e commite agora? 
 # IA ABABA - Pré-diagnósticos de Demência
 
 Sistema web para triagem cognitiva e predição de Alzheimer usando Inteligência Artificial.
@@ -56,9 +59,10 @@ Sistema web para triagem cognitiva e predição de Alzheimer usando Inteligênci
 ```
 c:\ababa\
 ├── api.py                          # API Flask (Backend)
-├── minha_rede.py                   # Treinamento do modelo (intacto)
+├── minha_rede.py                   # Treinamento e validação cruzada do Random Forest
 ├── modelo_alzheimer.pkl            # Modelo treinado
 ├── padronizador.pkl                # StandardScaler do modelo
+├── imputador.pkl                    # Imputação de valores ausentes
 ├── requirements.txt                # Dependências Python
 ├── templates/                      # Templates HTML
 │   ├── index.html                 # Página inicial
@@ -95,7 +99,7 @@ Se quiser retreinar o modelo:
 python minha_rede.py
 ```
 
-Isso vai gerar/atualizar `modelo_alzheimer.pkl` e `padronizador.pkl`.
+Isso vai executar validação cruzada aninhada, gerar/atualizar `modelo_alzheimer.pkl`, `padronizador.pkl`, `imputador.pkl`, `modelo_metadata.json` e `metrics_report.txt`.
 
 ### 3. Iniciar o Servidor Flask
 
@@ -145,9 +149,10 @@ Se suas credenciais forem diferentes, edite a função `conectar_banco()` em `ap
 
 ## 🧠 Modelos e Arquivos
 
-- **modelo_alzheimer.pkl**: Random Forest treinado (200 árvores, max_depth=10)
+- **modelo_alzheimer.pkl**: Random Forest treinado com hiperparâmetros escolhidos por validação cruzada
 - **padronizador.pkl**: StandardScaler para normalização dos dados
-- **minha_rede.py**: Script de treinamento (não precisa rodar novamente se os .pkl já existirem)
+- **imputador.pkl**: imputador ajustado nos dados de treino
+- **minha_rede.py**: Script de treinamento e avaliação cruzada (executar para treinar de novo)
 
 ## 🔐 Segurança
 
@@ -190,4 +195,4 @@ Para diagnóstico real, procure: neurologista, geriatra, psiquiatra ou neuropsic
 
 ---
 
-**Escola:** Brigadeiro José da Silva Paes - Técnico em Informática (3º ano)
+**Escola:** Silva Paes - Técnico em Informática (3º ano)

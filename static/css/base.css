@@ -34,14 +34,15 @@ html, body {
 }
 
 body {
-    background:
+    background-color: var(--dark-bg);
+    background-image:
         radial-gradient(circle at 20% 30%, rgba(255, 107, 107, 0.33), transparent 40%),
         radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.33), transparent 40%),
-        radial-gradient(circle at 50% 80%, rgba(61, 65, 66, 0.33), transparent 40%),
-        var(--dark-bg);
+        radial-gradient(circle at 50% 80%, rgba(61, 65, 66, 0.33), transparent 40%);
     background-attachment: fixed;
     color: var(--light-text);
     animation: aurora 5s ease infinite;
+    min-height: 100vh;
 }
 
 @keyframes aurora {

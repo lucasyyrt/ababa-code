@@ -19,52 +19,65 @@ async function inicializarTeste() {
         perguntasArray = [
             {
                 perguntas: "Em que ano estamos",
-                resposta: dataInfo.ano.toString()
+                resposta: dataInfo.ano.toString(),
+                categoria: "Orientação temporal"
             },
             {
                 perguntas: "Em que mês estamos",
-                resposta: dataInfo.mes
+                resposta: dataInfo.mes,
+                categoria: "Orientação temporal"
             },
             {
                 perguntas: "Que dia da semana é hoje?",
-                resposta: dataInfo.dia_semana
+                resposta: dataInfo.dia_semana,
+                categoria: "Orientação temporal",
+                tipo: "dia-semana"
             },
             {
                 perguntas: "Memorize estas palavras: bola, carro, árvore. Digite 'ok' para continuar.",
                 resposta: "ok",
+                categoria: "Memória",
                 pontuar: false
             },
             {
-                perguntas: "Quanto é 1000 menos 7?",
-                resposta: "993"
+                perguntas: "Quanto é 1 mais 1?",
+                resposta: "2",
+                categoria: "Cálculo"
             },
             {
-                perguntas: "Quanto é 993 menos 7?",
-                resposta: "986"
+                perguntas: "Quanto é 2 mais 2?",
+                resposta: "4",
+                categoria: "Cálculo"
             },
             {
-                perguntas: "Quanto é 986 menos 7?",
-                resposta: "979"
+                perguntas: "Quanto é 3 mais 2?",
+                resposta: "5",
+                categoria: "Cálculo"
             },
             {
-                perguntas: "Quanto é 979 menos 7?",
-                resposta: "972"
+                perguntas: "Quanto é 4 mais 3?",
+                resposta: "7",
+                categoria: "Cálculo"
             },
             {
-                perguntas: "Quanto é 972 menos 7?",
-                resposta: "965"
+                perguntas: "Quanto é 5 mais 2?",
+                resposta: "7",
+                categoria: "Cálculo"
             },
             {
                 perguntas: "Qual era a primeira palavra memorizada?",
-                resposta: "bola"
+                resposta: "bola",
+                categoria: "Memória"
             },
             {
                 perguntas: "Qual era a segunda palavra memorizada?",
-                resposta: "carro"
+                resposta: "carro",
+                categoria: "Memória"
             },
             {
                 perguntas: "Qual era a terceira palavra memorizada?",
-                resposta: "árvore"
+                resposta: "árvore",
+                categoria: "Memória"
             }
         ];
         
@@ -85,19 +98,36 @@ function mostrarPergunta() {
         const pergunta = perguntasArray[indicePergunta];
         const numero = indicePergunta + 1;
         const total = perguntasArray.length;
+        const progresso = Math.round((numero / total) * 100);
         
         container.innerHTML = `
             <div class="pergunta-item">
-                <div class="pergunta-numero">Pergunta ${numero}/${total}</div>
+                <div class="pergunta-cabecalho">
+                    <span class="pergunta-categoria">${pergunta.categoria}</span>
+                    <span class="pergunta-numero">Pergunta ${numero} de ${total}</span>
+                </div>
+                <div
+                    class="pergunta-progresso"
+                    role="progressbar"
+                    aria-label="Progresso do teste"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="${progresso}"
+                >
+                    <span style="width: ${progresso}%"></span>
+                </div>
                 <div class="pergunta-texto">${pergunta.perguntas}</div>
                 <input 
                     type="text" 
                     id="resposta-input" 
                     class="pergunta-input" 
                     placeholder="Digite sua resposta"
+                    aria-label="Resposta"
                     autofocus
                 >
-                <button class="pergunta-btn" onclick="verificarResposta()">Próxima</button>
+                <button class="pergunta-btn" onclick="verificarResposta()">
+                    ${numero === total ? "Finalizar teste" : "Próxima pergunta"}
+                </button>
             </div>
         `;
         
@@ -106,11 +136,8 @@ function mostrarPergunta() {
             const input = document.getElementById('resposta-input');
             if (input) {
                 input.focus();
-                // Usar keyup que e mais confiavel
-                input.addEventListener('keyup', function(e) {
-                    console.log('Tecla pressionada:', e.key);
+                input.addEventListener('keydown', function(e) {
                     if (e.key === 'Enter') {
-                        console.log('Enter detectado!');
                         verificarResposta();
                     }
                 });
@@ -134,8 +161,18 @@ function verificarResposta() {
     }
     
     const pergunta = perguntasArray[indicePergunta];
-    const usuarioLimpo = limparTextoAcentos(respostaUsuario);
-    const corretaLimpa = limparTextoAcentos(pergunta.resposta);
+    const normalizarResposta = texto => texto
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, '');
+    let usuarioLimpo = normalizarResposta(respostaUsuario);
+    let corretaLimpa = normalizarResposta(pergunta.resposta);
+
+    if (pergunta.tipo === 'dia-semana') {
+        usuarioLimpo = usuarioLimpo.replace(/feira$/, '');
+        corretaLimpa = corretaLimpa.replace(/feira$/, '');
+    }
     
     if (pergunta.pontuar !== false && usuarioLimpo === corretaLimpa) {
         acertos++;
@@ -150,14 +187,17 @@ function verificarResposta() {
 function finalizarTeste() {
     const idade = Number.parseFloat(document.getElementById('idade').value || 0);
     const idadeValida = Number.isFinite(idade) ? idade : 0;
-    pontosMMSE = Math.round((acertos / perguntasArray.length) * 30);
+    const totalPerguntasPontuadas = perguntasArray.filter(
+        pergunta => pergunta.pontuar !== false
+    ).length;
+    pontosMMSE = Math.round((acertos / totalPerguntasPontuadas) * 30);
     
     // Esconder teste, mostrar resultado
     document.getElementById('teste-container').style.display = 'none';
     document.getElementById('resultado-container').style.display = 'block';
     
     // Atualizar pontuacao
-    document.getElementById('pontuacao').textContent = `${acertos}/${perguntasArray.length}`;
+    document.getElementById('pontuacao').textContent = `${pontosMMSE}/30`;
     
     // Mostrar aviso/info conforme resultado
     const alertaDiv = document.getElementById('alerta-resultado');

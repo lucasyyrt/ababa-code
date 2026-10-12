@@ -5,6 +5,21 @@
     sem isso o usuario teria que ficar voltando e perdendo o contexto
 */
 
+body {
+    background-color: var(--dark-bg);
+    background-image:
+        radial-gradient(circle at 20% 30%, rgba(255, 107, 107, 0.33), transparent 40%),
+        radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.33), transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(61, 65, 66, 0.33), transparent 40%);
+    background-attachment: fixed;
+    animation: aurora 5s ease infinite;
+}
+
+.logo-top-left {
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
 .navbar {
     position: fixed;
     top: 0px;

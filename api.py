@@ -62,6 +62,8 @@ def conectar_banco():
 try:
     modelo = joblib.load('modelo_alzheimer.pkl')
     scaler = joblib.load('padronizador.pkl')
+    imputador = joblib.load('imputador.pkl')
+    IMPUTACAO_MEDIANAS = {}
 
     # Tenta ler os metadados do modelo pra conhecer o nome das colunas que ele espera
     try:
@@ -69,6 +71,7 @@ try:
         with open('modelo_metadata.json', 'r') as f:
             metadata = json.load(f)
             COLUNAS_ESPERADAS = metadata.get('colunas', ['M/F', 'Age', 'Educ', 'SES', 'MMSE', 'eTIV', 'nWBV', 'ASF'])
+            IMPUTACAO_MEDIANAS = metadata.get('imputacao_medianas', {})
     except:
         # Se nn encontrar metadados usa um fallback seguro com as colunas conhecidas
         COLUNAS_ESPERADAS = ['M/F', 'Age', 'Educ', 'SES', 'MMSE', 'eTIV', 'nWBV', 'ASF']
@@ -80,6 +83,8 @@ except Exception as e:
     print(f"✗ Erro ao carregar modelos: {e}")
     modelo = None
     scaler = None
+    imputador = None
+    IMPUTACAO_MEDIANAS = {}
     COLUNAS_ESPERADAS = ['M/F', 'Age', 'Educ', 'SES', 'MMSE', 'eTIV', 'nWBV', 'ASF']
 
 # ============= FUNCOES AUXILIARES =============
@@ -300,13 +305,21 @@ def api_prever():
             return jsonify({'sucesso': False, 'mensagem': 'Gênero inválido. Use Masculino ou Feminino.'}), 400
 
         genero = 0 if genero_normalizado == 'masculino' else 1
-        idade = float(data.get('idade', 0) or 0)
-        educacao = float(data.get('educacao', 0) or 0)
-        ses = float(data.get('ses', 0) or 0)
-        mmse = float(data.get('mmse', 0) or 0)
-        etiv = float(data.get('etiv', 0) or 0)
-        nwbv = float(data.get('nwbv', 0) or 0)
-        asf = float(data.get('asf', 0) or 0)
+        def ler_numero(campo, mediana=None):
+            valor = data.get(campo)
+            if valor is None or (isinstance(valor, str) and not valor.strip()):
+                if mediana is not None:
+                    return float(mediana)
+                return np.nan
+            return float(valor)
+
+        idade = ler_numero('idade')
+        educacao = ler_numero('educacao')
+        ses = ler_numero('ses', IMPUTACAO_MEDIANAS.get('SES'))
+        mmse = ler_numero('mmse', IMPUTACAO_MEDIANAS.get('MMSE'))
+        etiv = ler_numero('etiv')
+        nwbv = ler_numero('nwbv')
+        asf = ler_numero('asf')
 
         if any(pd.isna([genero, idade, educacao, ses, mmse, etiv, nwbv, asf])):
             return jsonify({'sucesso': False, 'mensagem': 'Valores invalidos ou faltando dados'}), 400
@@ -342,10 +355,11 @@ def api_prever():
             'eTIV': [etiv],
             'nWBV': [nwbv],
             'ASF': [asf]
-        })
+        }, columns=COLUNAS_ESPERADAS)
         
-        # Padroniza e faz predicao
-        dados_escala = scaler.transform(vetor_paciente)
+        # Aplica a mesma imputação e escala usadas durante o treinamento.
+        dados_imputados = imputador.transform(vetor_paciente)
+        dados_escala = scaler.transform(dados_imputados)
         previsao = modelo.predict(dados_escala)
         probabilidade = modelo.predict_proba(dados_escala)
         confianca = np.max(probabilidade) * 100
