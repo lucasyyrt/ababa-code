@@ -13,6 +13,7 @@ Ta tudo separado por partes pra ficar mais facil de entender e de mostrar no pro
 # Aqui a gente importa as coisas que o Flask e a API precisam pra funcionar
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from flask_cors import CORS
+from werkzeug.exceptions import RequestEntityTooLarge
 
 # Bibliotecas de IA e dados
 import numpy as np
@@ -32,6 +33,10 @@ import os
 # ===== INICIALIZACAO DA APLICACAO =====
 # Cria a aplicacao Flask mesmo sem isso nn tem como registrar as rotas
 app = Flask(__name__)
+MAX_EXAM_FILES = 60
+MAX_EXAM_UPLOAD_BYTES = 2 * 1024 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = MAX_EXAM_UPLOAD_BYTES + 16 * 1024 * 1024
+EXAM_FILE_EXTENSIONS = ('.jpg', '.jpeg')
 
 # Essa chave e usada pra manter a sessao do usuario segura no navegador
 app.secret_key = 'sua_chave_secreta_super_segura_aqui'
@@ -284,6 +289,61 @@ def api_logout():
     session.clear()
     return jsonify({'sucesso': True, 'mensagem': 'Saindo...'})
 
+@app.route('/api/enviar_exames', methods=['POST'])
+def api_enviar_exames():
+    """Recebe anexos de exames sem armazenar ou executar uma análise por imagem."""
+    if 'user_id' not in session:
+        return jsonify({'sucesso': False, 'mensagem': 'Faça login para enviar exames.'}), 401
+
+    arquivos = request.files.getlist('exames')
+    if not arquivos:
+        return jsonify({'sucesso': False, 'mensagem': 'Selecione ao menos um arquivo.'}), 400
+    if len(arquivos) > MAX_EXAM_FILES:
+        return jsonify({
+            'sucesso': False,
+            'mensagem': f'O limite é de {MAX_EXAM_FILES} arquivos por envio.'
+        }), 400
+
+    tamanho_total = 0
+    for arquivo in arquivos:
+        nome = (arquivo.filename or '').lower()
+        if not nome.endswith(EXAM_FILE_EXTENSIONS):
+            return jsonify({
+                'sucesso': False,
+                'mensagem': f'Somente arquivos JPEG (.jpg ou .jpeg) são aceitos: {arquivo.filename or "arquivo sem nome"}.'
+            }), 400
+        arquivo.stream.seek(0, os.SEEK_END)
+        tamanho = arquivo.stream.tell()
+        arquivo.stream.seek(0)
+        if tamanho == 0:
+            return jsonify({
+                'sucesso': False,
+                'mensagem': f'O arquivo {arquivo.filename} está vazio.'
+            }), 400
+        if arquivo.stream.read(3) != b'\xff\xd8\xff':
+            arquivo.stream.seek(0)
+            return jsonify({
+                'sucesso': False,
+                'mensagem': f'O arquivo {arquivo.filename} não contém uma imagem JPEG válida.'
+            }), 400
+        arquivo.stream.seek(0)
+        tamanho_total += tamanho
+        if tamanho_total > MAX_EXAM_UPLOAD_BYTES:
+            return jsonify({
+                'sucesso': False,
+                'mensagem': 'O limite total de arquivos por envio é de 2 GB.'
+            }), 413
+
+    return jsonify({
+        'sucesso': True,
+        'recebido': True,
+        'analisado': False,
+        'mensagem': (
+            f'{len(arquivos)} arquivo(s) recebido(s). Nenhuma análise por CNN foi feita; '
+            'os arquivos não foram salvos pela aplicação.'
+        )
+    })
+
 # ============= APIs DE PREDICAO =============
 # Esse bloco recebe os dados do formulario clinico e usa o modelo treinado pra responder
 
@@ -438,6 +498,13 @@ def serve_imgs(filename):
 def nao_encontrado(error):
     """Se a rota nn existir devolve um JSON bonitinho dizendo que nn achou"""
     return jsonify({'erro': 'Página não encontrada'}), 404
+
+@app.errorhandler(RequestEntityTooLarge)
+def requisicao_muito_grande(error):
+    return jsonify({
+        'sucesso': False,
+        'mensagem': 'O envio ultrapassou o limite total de 2 GB.'
+    }), 413
 
 @app.errorhandler(500)
 def erro_servidor(error):

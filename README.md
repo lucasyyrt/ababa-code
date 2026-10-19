@@ -113,6 +113,10 @@ A API estará disponível em: `http://localhost:5000`
 
 Acesse: `http://localhost:5000`
 
+### Envio de exames de imagem
+
+Na página de Teste Completo é possível enviar até 60 imagens JPEG (`.jpg` ou `.jpeg`) por envio, com limite combinado de 2 GB. A API valida a extensão e o conteúdo JPEG. DICOM, NIfTI e outros formatos não são aceitos. O envio ainda não faz análise por CNN; os arquivos não são armazenados pela aplicação.
+
 ## 🔧 Configuração Necessária
 
 ### Banco de Dados MySQL

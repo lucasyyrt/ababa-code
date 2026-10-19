@@ -254,11 +254,19 @@ function finalizarTeste() {
 // se o backend responder, ela troca a tela e mostra o resultado da IA com a confianca
 async function mostrarAnalisePredictiva() {
     const idade = Number.parseFloat(document.getElementById('idade').value || 0);
+    const educacaoInput = document.getElementById('educacao');
+    const educacao = Number.parseFloat(educacaoInput.value);
+
+    if (!Number.isInteger(educacao) || educacao < 1 || educacao > 5) {
+        alert('Selecione um nível de escolaridade (de 1 a 5).');
+        educacaoInput.focus();
+        return;
+    }
 
     const dados = {
         genero: 'Masculino',
         idade: Number.isFinite(idade) ? idade : 60,
-        educacao: 12,
+        educacao: educacao,
         ses: 3,
         mmse: Number.isFinite(pontosMMSE) ? pontosMMSE : 0,
         etiv: 1500,

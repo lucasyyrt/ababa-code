@@ -119,6 +119,52 @@
                     </div>
                 </div>
 
+                <section class="exam-upload" aria-labelledby="exam-upload-title">
+                    <h3 id="exam-upload-title">Enviar exames de imagem</h3>
+                    <p class="upload-description">
+                        Selecione imagens de ressonância magnética exportadas no formato JPEG (.jpg ou .jpeg).
+                        Também é possível selecionar uma pasta com imagens JPEG.
+                    </p>
+                    <label class="upload-dropzone" id="upload-dropzone" for="exames-upload">
+                        <input
+                            class="visually-hidden"
+                            type="file"
+                            id="exames-upload"
+                            accept=".jpg,.jpeg,image/jpeg"
+                            multiple
+                        >
+                        <span class="upload-icon" aria-hidden="true">＋</span>
+                        <strong>Escolher exames ou arrastar arquivos para cá</strong>
+                        <span>Até 60 arquivos por envio, com limite total de 2 GB</span>
+                    </label>
+                    <div class="upload-actions">
+                        <label class="folder-picker" for="exames-folder-upload">Selecionar pasta JPEG</label>
+                        <input
+                            class="visually-hidden"
+                            type="file"
+                            id="exames-folder-upload"
+                            webkitdirectory
+                            directory
+                            multiple
+                        >
+                        <button type="button" id="limpar-exames" class="clear-files-button" hidden>
+                            Limpar seleção
+                        </button>
+                    </div>
+                    <p id="exam-file-summary" class="file-summary" aria-live="polite">
+                        Nenhum arquivo selecionado.
+                    </p>
+                    <ul id="exam-file-list" class="file-list" aria-label="Arquivos selecionados"></ul>
+                    <button type="button" id="enviar-exames" class="btn btn-upload" disabled>
+                        Enviar exames
+                    </button>
+                    <p id="exam-upload-status" class="upload-status" role="status" aria-live="polite"></p>
+                    <small class="upload-disclaimer">
+                        O envio ainda não faz análise por CNN. Os arquivos são recebidos pela API e descartados,
+                        sem serem salvos pela aplicação.
+                    </small>
+                </section>
+
                 <button type="submit" class="btn btn-primary">Submeter e Executar Predição da IA</button>
             </form>
 

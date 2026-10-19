@@ -87,7 +87,8 @@
     font-weight: 500;
 }
 
-.form-section input[type="number"] {
+.form-section input[type="number"],
+.form-section select {
     width: 100%;
     padding: 8px;
     border: 1px solid #555;
@@ -97,7 +98,18 @@
     font-size: 14px;
 }
 
-.form-section input:focus {
+.form-section select {
+    min-height: 38px;
+    cursor: pointer;
+}
+
+.form-section select option {
+    background-color: #17212b;
+    color: var(--light-text);
+}
+
+.form-section input:focus,
+.form-section select:focus {
     outline: none;
     border-color: var(--secondary-color);
 }

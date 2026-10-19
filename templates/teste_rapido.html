@@ -11,7 +11,7 @@
     <title>Teste Rápido - IA ABABA</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/teste_rapido.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/teste_rapido.css', v='2') }}">
 </head>
 <body>
     <nav class="navbar">
@@ -60,6 +60,17 @@
                     <label for="idade">Idade</label>
                     <input type="number" id="idade" min="18" max="120" value="60">
                 </div>
+                <div class="form-section">
+                    <label for="educacao">Grau de Instrução / Escolaridade</label>
+                    <select id="educacao" required>
+                        <option value="">Selecione...</option>
+                        <option value="1">1 - Nível Escolar 1</option>
+                        <option value="2">2 - Nível Escolar 2</option>
+                        <option value="3">3 - Nível Escolar 3</option>
+                        <option value="4">4 - Nível Escolar 4</option>
+                        <option value="5">5 - Nível Escolar 5</option>
+                    </select>
+                </div>
                 <div id="perguntas-container">
                     <!-- Perguntas serão inseridas aqui por JavaScript -->
                 </div>
@@ -98,7 +109,7 @@
     </footer>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/teste_rapido.js', v='3') }}"></script>
+    <script src="{{ url_for('static', filename='js/teste_rapido.js', v='4') }}"></script>
     <div class="credits">copyright © 2026</div>
 </body>
 </html>
